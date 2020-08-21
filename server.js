@@ -6,28 +6,28 @@ const todos = [
   { id: 3, text: 'Todo Three' },
 ];
 
-const server = http.createServer(({ headers, url, method }, res) => {
-  // res.statusCode = 404;
+const server = http.createServer((req, res) => {
+  const { headers, url, method } = req;
 
-  //   res.setHeader('Content-Type', 'text/plain');
-  //   res.setHeader('Content-Type', 'text/html');
-  //   res.setHeader('Content-Type', 'application/json');
-  //   res.setHeader('X-Powered-By', 'Node.js');
+  let body = [];
+  req
+    .on('data', (chunk) => {
+      body.push(chunk);
+    })
+    .on('end', () => {
+      body = Buffer.concat(body).toString();
+      console.log(body);
+    });
 
-  res.writeHead(400, {
+  res.writeHead(200, {
     'Content-Type': 'application/json',
     'X-Powered-By': 'Node.js',
   });
 
-  //   res.write('<h1>Hi Henry!</h1>');
-  //   res.write('<h2>You are awesome!</h2>');
-
-  // res.end(); // Không có thì bên client, quay vòng vòng hoài.
   res.end(
     JSON.stringify({
-      success: false,
-      error: 'An email is required',
-      data: null,
+      success: true,
+      data: todos,
     })
   ); // có thể truyền cái cần trả về bằng param trực tiếp trong hàm end luôn.
 });
