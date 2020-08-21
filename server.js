@@ -7,16 +7,29 @@ const todos = [
 ];
 
 const server = http.createServer(({ headers, url, method }, res) => {
+  // res.statusCode = 404;
+
   //   res.setHeader('Content-Type', 'text/plain');
   //   res.setHeader('Content-Type', 'text/html');
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('X-Powered-By', 'Node.js');
+  //   res.setHeader('Content-Type', 'application/json');
+  //   res.setHeader('X-Powered-By', 'Node.js');
+
+  res.writeHead(400, {
+    'Content-Type': 'application/json',
+    'X-Powered-By': 'Node.js',
+  });
 
   //   res.write('<h1>Hi Henry!</h1>');
   //   res.write('<h2>You are awesome!</h2>');
 
   // res.end(); // Không có thì bên client, quay vòng vòng hoài.
-  res.end(JSON.stringify({ success: true, data: todos })); // có thể truyền cái cần trả về bằng param trực tiếp trong hàm end luôn.
+  res.end(
+    JSON.stringify({
+      success: false,
+      error: 'An email is required',
+      data: null,
+    })
+  ); // có thể truyền cái cần trả về bằng param trực tiếp trong hàm end luôn.
 });
 
 const PORT = 5000;
